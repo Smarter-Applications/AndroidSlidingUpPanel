@@ -22,7 +22,7 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 
-import com.sothree.slidinguppanel.library.R;
+import am.smarter.slidinguppanel.library.R;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -208,6 +208,8 @@ public class SlidingUpPanelLayout extends ViewGroup {
      */
     private boolean mIsTouchEnabled;
 
+    private boolean mClickToCloseEnabled;
+
     private float mPrevMotionX;
     private float mPrevMotionY;
     private float mInitialMotionX;
@@ -309,6 +311,8 @@ public class SlidingUpPanelLayout extends ViewGroup {
                 mAnchorPoint = ta.getFloat(R.styleable.SlidingUpPanelLayout_umanoAnchorPoint, DEFAULT_ANCHOR_POINT);
 
                 mSlideState = PanelState.values()[ta.getInt(R.styleable.SlidingUpPanelLayout_umanoInitialState, DEFAULT_SLIDE_STATE.ordinal())];
+
+                mClickToCloseEnabled = ta.getBoolean(R.styleable.SlidingUpPanelLayout_umanoClickToCollapse, false);
 
                 int interpolatorResId = ta.getResourceId(R.styleable.SlidingUpPanelLayout_umanoScrollInterpolator, -1);
                 if (interpolatorResId != -1) {
@@ -535,25 +539,26 @@ public class SlidingUpPanelLayout extends ViewGroup {
         }
         mDragView = dragView;
         if (mDragView != null) {
-            mDragView.setClickable(true);
+            mDragView.setClickable(mClickToCloseEnabled);
             mDragView.setFocusable(false);
             mDragView.setFocusableInTouchMode(false);
-            mDragView.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!isEnabled() || !isTouchEnabled()) return;
-                    if (mSlideState != PanelState.EXPANDED && mSlideState != PanelState.ANCHORED) {
-                        if (mAnchorPoint < 1.0f) {
-                            setPanelState(PanelState.ANCHORED);
+            if (mClickToCloseEnabled) {
+                mDragView.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!isEnabled() || !isTouchEnabled()) return;
+                        if (mSlideState != PanelState.EXPANDED && mSlideState != PanelState.ANCHORED) {
+                            if (mAnchorPoint < 1.0f) {
+                                setPanelState(PanelState.ANCHORED);
+                            } else {
+                                setPanelState(PanelState.EXPANDED);
+                            }
                         } else {
-                            setPanelState(PanelState.EXPANDED);
+                            setPanelState(PanelState.COLLAPSED);
                         }
-                    } else {
-                        setPanelState(PanelState.COLLAPSED);
                     }
-                }
-            });
-            ;
+                });
+            }
         }
     }
 
