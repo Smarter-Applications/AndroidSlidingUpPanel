@@ -15,7 +15,7 @@ dependencies {
     repositories {
         mavenCentral()
     }
-    compile 'am.smarter.slidinguppanel:slidinguppanel:1.0.0'
+    implementation 'am.smarter.slidinguppanel:slidinguppanel:1.0.0'
 }
 ```
 
