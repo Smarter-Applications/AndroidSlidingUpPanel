@@ -1,5 +1,6 @@
-package com.sothree.slidinguppanel.demo;
+package am.smarter.slidinguppanel.demo;
 
+import am.smarter.slidinguppanel.SlidingUpPanelLayout;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,9 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
+import com.sothree.slidinguppanel.demo.R;
 
 import java.util.Arrays;
 import java.util.List;
@@ -84,21 +83,21 @@ public class DemoActivity extends AppCompatActivity {
         lv.setAdapter(arrayAdapter);
 
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
-        mLayout.addPanelSlideListener(new PanelSlideListener() {
+        mLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
                 Log.i(TAG, "onPanelSlide, offset " + slideOffset);
             }
 
             @Override
-            public void onPanelStateChanged(View panel, PanelState previousState, PanelState newState) {
+            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
                 Log.i(TAG, "onPanelStateChanged " + newState);
             }
         });
         mLayout.setFadeOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                mLayout.setPanelState(PanelState.COLLAPSED);
+                mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
             }
         });
 
@@ -123,7 +122,7 @@ public class DemoActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.demo, menu);
         MenuItem item = menu.findItem(R.id.action_toggle);
         if (mLayout != null) {
-            if (mLayout.getPanelState() == PanelState.HIDDEN) {
+            if (mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.HIDDEN) {
                 item.setTitle(R.string.action_show);
             } else {
                 item.setTitle(R.string.action_hide);
@@ -142,11 +141,11 @@ public class DemoActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.action_toggle: {
                 if (mLayout != null) {
-                    if (mLayout.getPanelState() != PanelState.HIDDEN) {
-                        mLayout.setPanelState(PanelState.HIDDEN);
+                    if (mLayout.getPanelState() != SlidingUpPanelLayout.PanelState.HIDDEN) {
+                        mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
                         item.setTitle(R.string.action_show);
                     } else {
-                        mLayout.setPanelState(PanelState.COLLAPSED);
+                        mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                         item.setTitle(R.string.action_hide);
                     }
                 }
@@ -156,11 +155,11 @@ public class DemoActivity extends AppCompatActivity {
                 if (mLayout != null) {
                     if (mLayout.getAnchorPoint() == 1.0f) {
                         mLayout.setAnchorPoint(0.7f);
-                        mLayout.setPanelState(PanelState.ANCHORED);
+                        mLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
                         item.setTitle(R.string.action_anchor_disable);
                     } else {
                         mLayout.setAnchorPoint(1.0f);
-                        mLayout.setPanelState(PanelState.COLLAPSED);
+                        mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                         item.setTitle(R.string.action_anchor_enable);
                     }
                 }
@@ -173,8 +172,8 @@ public class DemoActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (mLayout != null &&
-                (mLayout.getPanelState() == PanelState.EXPANDED || mLayout.getPanelState() == PanelState.ANCHORED)) {
-            mLayout.setPanelState(PanelState.COLLAPSED);
+                (mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED || mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.ANCHORED)) {
+            mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         } else {
             super.onBackPressed();
         }

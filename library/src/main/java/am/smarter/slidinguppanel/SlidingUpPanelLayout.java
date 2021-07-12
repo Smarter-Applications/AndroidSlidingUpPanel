@@ -1,4 +1,4 @@
-package com.sothree.slidinguppanel;
+package am.smarter.slidinguppanel;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
