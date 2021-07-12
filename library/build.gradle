@@ -21,6 +21,16 @@ publishing {
             artifact("build/outputs/aar/library-release.aar")
         }
     }
+    repositories {
+        maven {
+            name = "GitHub"
+            url = "https://maven.pkg.github.com/Smarter-Applications/Library-Android-Sliding-Panel"
+            credentials {
+                username = GITHUB_USERNAME
+                password = GITHUB_PAT
+            }
+        }
+    }
 }
 
 dependencies {
